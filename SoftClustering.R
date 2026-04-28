@@ -5,7 +5,7 @@
 library(mclust)
 
 PCfit <- Mclust(PCscores[,1:3], G=2) # implements a Gaussian mixture model
-head(fit$z) 
+head(PCfit$z) 
 
 # color interpolation (for a cool graph!)
 p <- PCfit$z[,1]
@@ -34,7 +34,7 @@ plot_ly(
 
 
 FAfit <- Mclust(FAscores[,1:3], G=2) # implements a Gaussian mixture model
-head(fit$z) 
+head(FAfit$z) 
 
 # color interpolation (for a cool graph!)
 p <- FAfit$z[,1]
