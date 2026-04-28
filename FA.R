@@ -1,10 +1,11 @@
 library(ggplot2)
 library(plotly)
+library(psych)
 
 
 # factor analysis (MLE)
 
-FA <- factanal(banknote[,-1], factors = 3, scores = "Bartlett", rotation = "varimax")
+FA <- fa(banknote[,-1], nfactors = 3, fm = "ml", rotate = "varimax", scores = "Bartlett")
 
 # first 3 factors explain 70% of the variance in the data
 
