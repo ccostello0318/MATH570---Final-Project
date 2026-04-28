@@ -10,12 +10,17 @@ testClassifer <- function(S = 1, seed = 0318, trainProportion = 0.8, dimReduc = 
     trainingIndices <- c(sample(100, trainingSize/2), sample(100, trainingSize/2) + 100) # 80% of genuine, 80% of counterfeit
     testingIndices <- seq(200)[-trainingIndices]
     
+    if (dimReduc == "none") { # w/o dimension reduction
+      scores_train <- banknote[trainingIndices,-1] |> as.data.frame() |> cbind(Status = banknote[trainingIndices,1])
+      scores_test <- banknote[testingIndices,-1] |> as.data.frame() |> cbind(Status = banknote[testingIndices,1])
+    }
+    
     if (dimReduc == "FA") { # factor analysis
       FA <- fa(banknote[trainingIndices,-1], nfactors = 3, fm = "ml", rotate = "varimax", scores = "Bartlett")
       scores_train <- FA$scores |> as.data.frame() |> cbind(Status = banknote[trainingIndices,1])
       scores_test <- predict(FA, banknote[testingIndices, -1]) |> as.data.frame()
     }
-    if (dimReduc == "PCA") { # principal component anaylsis
+    if (dimReduc == "PCA") { # principal component analysis
       PCA <- prcomp(banknote[trainingIndices, -1], scale = TRUE)
       scores_train <- PCA$x[, 1:3] |> as.data.frame() |> cbind(Status = banknote[trainingIndices, 1])
       scores_test <- predict(PCA, newdata = banknote[testingIndices, -1])[, 1:3] |> as.data.frame()
