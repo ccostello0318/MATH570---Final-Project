@@ -1,6 +1,9 @@
 library(ggplot2)
 library(plotly)
 
+diag(cov(banknote[,-1]))
+# the variances of the different variables are very different (Bottom and Diagonal are very large relatively). Best to use correlation PCA
+
 PCA <- prcomp(banknote[,-1], scale = TRUE)
 cumsum(PCA$sdev) / sum(PCA$sdev)
 
